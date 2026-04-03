@@ -44,6 +44,7 @@ type
     act_smList: TAction;
     act_descForImageTH: TAction;
     btndescForImageTH: TButton;
+    edt_downLoadID: TEdit;
     procedure act_uploadImageExecute(Sender: TObject);
     procedure act_AuthExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -59,6 +60,7 @@ type
     procedure act_generateImageUpdate(Sender: TObject);
     procedure act_smListExecute(Sender: TObject);
     procedure act_descForImageTHExecute(Sender: TObject);
+    procedure act_downloadImageUpdate(Sender: TObject);
   private
     { Private declarations }
     FGChat:TwsGigaChat;
@@ -193,24 +195,45 @@ end;
 procedure TGChatDirForm.act_downloadImageExecute(Sender: TObject);
 var L_ob:ISuperObject;
     L_id,L_fileName,L_Mess:string;
+    L_Str:TMemoryStream;
+    L_jp:TJpegImage;
 begin
  if FGChat.Enabled then
- // if dlgSavePict_1.Execute then
+  if dlgSavePict_1.Execute then
    begin
-   { L_id:='545bc734-5b80-4966-80e6-008fc5db90db';
-    if (FGChat.deleteFile(L_id)) then
-     begin
-       ShowMessage('DEL');
-     end;
-     Exit;
-    }
-    L_fileName:='roma_R1.jpg';
-    L_id:='6bf1abdc-cb76-4a1c-baa8-232653e3302e';
+   // L_id:='6bf1abdc-cb76-4a1c-baa8-232653e3302e';
+    L_id:=Trim(edt_downLoadID.Text);
+    L_fileName:=dlgSavePict_1.FileName;
     if (FGChat.downloadFile(L_id,L_fileName)) then
       begin
         MessMngr.MessDlg(nil,'downFile','LOAD_file '+L_fileName,mdtInfo,[mbnOk],1);
+        ///
+       // L_Str:=TMemoryStream.Create;
+         try
+                     //setStage(2,'проверка файла в хранилище');
+                     // if (FGChat.downloadFileToStream(L_fID,L_str)) then
+            try
+             L_jp:=TJpegImage.Create;
+             try
+               L_jp.LoadFromFile(L_fileName);
+               imgR.Picture.Assign(L_jp);
+               finally
+                L_jp.Free;
+             end;
+             setStage(1,'подтверждено');
+            except on E:Exception do
+              MessMngr.MessDlgErr(E,'Ошибка формата изображения');
+            end;
+        finally
+         // L_Str.Free;
+       end;
       end;
    end;
+end;
+
+procedure TGChatDirForm.act_downloadImageUpdate(Sender: TObject);
+begin
+  TAction(Sender).Enabled:=(Length(edt_downLoadID.Text)>10);
 end;
 
 procedure TGChatDirForm.act_fileListExecute(Sender: TObject);

@@ -160,6 +160,13 @@ object GChatDirForm: TGChatDirForm
     Action = act_descForImageTH
     TabOrder = 14
   end
+  object edt_downLoadID: TEdit
+    Left = 32
+    Top = 111
+    Width = 337
+    Height = 21
+    TabOrder = 15
+  end
   object actlstGC: TActionList
     Left = 400
     Top = 64
@@ -174,6 +181,7 @@ object GChatDirForm: TGChatDirForm
     object act_downloadImage: TAction
       Caption = 'act_downloadImage'
       OnExecute = act_downloadImageExecute
+      OnUpdate = act_downloadImageUpdate
     end
     object act_generateImage: TAction
       Caption = 'act_generateImage'
