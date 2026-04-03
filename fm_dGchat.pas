@@ -400,6 +400,11 @@ begin
 
   FGChat:=TwsGigaChat.Create(Self);
   ///
+  ///  если свои ClientID и AuthKey - подстаить их в поля вместо моего внешнего файла
+  L_CliID:='';
+  L_Akey:='';
+  ///
+  if Length(L_CliID)=0 then
    with TStringList.Create do
     begin
       LoadFromFile('..\..\..\'+'ggLoginKeys.dat');
@@ -409,6 +414,7 @@ begin
          L_Akey:=ch_DecryptStr(Strings[1],45);
        end;
     end;
+  ///
   if (Length(L_Akey)>10) then
    begin
      FGChat.setAuthParams(L_CliID,L_Akey);
