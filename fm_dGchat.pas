@@ -18,7 +18,6 @@ type
     act_uploadImage: TAction;
     dlgOpenPict: TOpenPictureDialog;
     act_Auth: TAction;
-    idhtp1: TIdHTTP;
     act_downloadImage: TAction;
     btndownloadImage: TButton;
     dlgSavePict_1: TSavePictureDialog;
@@ -78,7 +77,8 @@ implementation
 
 {$R *.dfm}
 
- uses Jpeg,
+ uses Jpeg, System.IOUtils,
+ u_CryptoFuncs,
  u_wCodeTrace, wAddFuncs, dlg_mess,
  fm_GchatList;
 
@@ -394,12 +394,25 @@ begin
 end;
 
 procedure TGChatDirForm.FormCreate(Sender: TObject);
+var L_path,L_CliID,L_Akey:string;
 begin
  wCode.Enabled:=True;
 
   FGChat:=TwsGigaChat.Create(Self);
-  FGChat.setAuthParams('019d3e1d-b009-7706-b772-28834893c75b',
-  'MDE5ZDNlMWQtYjAwOS03NzA2LWI3NzItMjg4MzQ4OTNjNzViOmY4YTVjYTBhLWQyZTctNGQ1MS1hOGI0LTM0YjM0Y2ZkNGJjYg==');
+  ///
+   with TStringList.Create do
+    begin
+      LoadFromFile('..\..\..\'+'ggLoginKeys.dat');
+      if Count>=2 then
+       begin
+         L_CliID:=ch_DecryptStr(Strings[0],45);
+         L_Akey:=ch_DecryptStr(Strings[1],45);
+       end;
+    end;
+  if (Length(L_Akey)>10) then
+   begin
+     FGChat.setAuthParams(L_CliID,L_Akey);
+   end;
 end;
 
 procedure TGChatDirForm.FormShow(Sender: TObject);

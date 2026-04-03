@@ -8,12 +8,18 @@ uses
   madListModules,
   Vcl.Forms,
   fm_dGchat in 'fm_dGchat.pas' {GChatDirForm},
-  RzCommon in '..\MMLite\common\RzCommon.pas',
-  RzGrafx in '..\MMLite\common\RzGrafx.pas',
-  u_getVersion in '..\MMLite\common\u_getVersion.pas',
-  u_wCodeTrace in '..\MMLite\common\u_wCodeTrace.pas',
   u_wsGigaChat in 'u_wsGigaChat.pas',
-  fm_GchatList in 'fm_GchatList.pas' {GChatListForm};
+  fm_GchatList in 'fm_GchatList.pas' {GChatListForm},
+  RzCommon in 'commonUnits\RzMinFiles\RzCommon.pas',
+  RzGrafx in 'commonUnits\RzMinFiles\RzGrafx.pas',
+  XSuperJSON in 'components\x-superobject-master\XSuperJSON.pas',
+  XSuperObject in 'components\x-superobject-master\XSuperObject.pas',
+  dlg_Mess in 'commonUnits\dlg_Mess.pas' {Mess_Dlg},
+  u_wCodeTrace in 'commonUnits\u_wCodeTrace.pas',
+  u_wResources in 'commonUnits\u_wResources.pas',
+  wAddFuncs in 'commonUnits\wAddFuncs.pas',
+  u_CryptoFuncs in 'commonUnits\u_CryptoFuncs.pas',
+  u_wDataTypes in 'commonUnits\u_wDataTypes.pas';
 
 {$R *.res}
 
